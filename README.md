@@ -1,0 +1,1 @@
+# my-own-path-to-automation
