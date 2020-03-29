@@ -19,6 +19,14 @@ Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
 netsh advfirewall firewall add rule name="ICMP Allow ping request" protocol=icmpv6:8,any dir=in action=allow
 
+## Expand the disk C to the maximum if requested
+
+$WillingDisk = Read-Host -Prompt 'Do you want to expand the disk C to the maximum? Y or N'
+if ($WillingDisk -eq 'Y') {
+    $MaxSize = Get-PartitionSupportedSize -DriveLetter C
+    Resize-Partition -DriveLetter C -Size $MaxSize.SizeMax -Confirm
+    }
+
 ## Asks for the interface data as interface index, IP, subnet and default gateway
 
 $InterfaceIndex = Read-Host -Prompt 'Execute Get-DnsClientServerAddress and insert here the interface index that you want to work with'
