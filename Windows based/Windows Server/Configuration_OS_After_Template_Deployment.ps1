@@ -48,14 +48,6 @@ Set-DnsClientServerAddress -InterfaceIndex $InterfaceIndex -ServerAddresses($DNS
 
 Disable-NetAdapterBinding -Name "*" -ComponentID ms_tcpip6
 
-## Expand the disk C to the maximum if requested
-
-$WillingDisk = Read-Host -Prompt 'Do you want to expand the disk C to the maximum?'
-if ($WillingDisk -eq 'Y') {
-    $MaxSize = Get-PartitionSupportedSize -DriveLetter C
-    Resize-Partition -DriveLetter C -Size $MaxSize.SizeMax -Confirm
-    }
-
 ## Rename of the server and has an if that lets you choice if you want to use the domain or not, also joins to domain for you.
 
 $Hostname = Read-Host -Prompt 'Insert the hostname here'
