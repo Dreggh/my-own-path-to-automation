@@ -4,6 +4,8 @@
 
 ## Checks Window's updates and installs it if requested - Putted at first since it will take some times
 
+Clear-Host
+
 $Updates = Read-Host -Prompt 'Do you want to perform the Windows Updates or not? Y or N'
 if ($Updates -eq 'Y') {
     wuauclt /detectnow /updatenow
@@ -38,7 +40,7 @@ $DNS2 = Read-Host -Prompt 'Insert the secondary DNS here'
 
 ## Uses the variable setted above in order to set the NIC
 
-
+Clear-Host
 
 "The IP will be $IP"
 "The subnet will be a /$Subnet subnet"
@@ -48,7 +50,7 @@ $DNS2 = Read-Host -Prompt 'Insert the secondary DNS here'
 $NetworkChoice = Read-Host -Prompt 'Are these informations correct? Y or N'
 
 if ($NetworkChoice -eq 'Y') {
-New-NetIPAddress -InterfaceIndex $InterfaceIndex -IPAddress $IP -PrefixLength $Subnet -DefaultGateway $DefaultGateway 
+New-NetIPAddress -InterfaceIndex $InterfaceIndex -IPAddress $IP -PrefixLength $Subnet -DefaultGateway $DefaultGateway -ErrorAction SilentlyCont
 Set-DnsClientServerAddress -InterfaceIndex $InterfaceIndex -ServerAddresses($DNS1,$DNS2) 
 } else { "Your dumb. Restart everything, in progress something better" }
 
