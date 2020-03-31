@@ -73,8 +73,7 @@ elseif ($DomainOrLocal -eq 'D') {
    $RebootChoice = Read-Host -Prompt 'Do you want to reboot the server now? Y or N.'
 
    if ($RebootChoice -eq 'Y') {
-   shutdown /r /t 3600 
-   "Since the Windows's update may still be running the server will be automatically rebooted in 60 minutes. Take a pausa!"
+   shutdown /r /t 0 
    } else { 
            "Alright! Fuck off."
            }
