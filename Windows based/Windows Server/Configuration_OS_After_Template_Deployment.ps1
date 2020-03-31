@@ -5,21 +5,10 @@
 ## Checks Window's updates and installs it if requested - Putted at first since it will take some times
 
 Clear-Host
+## Enable of Remote Desktop Service and configuring the firewall to allow the group as well as ping request over IPv4
 
-$Updates = Read-Host -Prompt 'Do you want to perform the Windows Updates or not? Y or N'
-if ($Updates -eq 'Y') {
-    wuauclt /detectnow /updatenow
-} 
-else { "Alright, do whatever you want. I'm out but I've already called Cabiola. NINONINONINO." }
-
-## Enable of Remote Desktop Service and configuring the firewall to allow the group
-
-Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 0
-Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
-
-## Enable ICMPv6 exception on firewall
-
-netsh advfirewall firewall add rule name="ICMP Allow ping request" protocol=icmpv6:8,any dir=in action=allow
+Enable-NetFirewallRule -DisplayName 'File and Printer Sharing (Echo Request - ICMPv4-In)'
+Enable-NetFirewallRule -Group '@FirewallAPI.dll,-28752'
 
 ## Expand the disk C to the maximum if requested
 
@@ -28,6 +17,15 @@ if ($WillingDisk -eq 'Y') {
     $MaxSize = Get-PartitionSupportedSize -DriveLetter C
     Resize-Partition -DriveLetter C -Size $MaxSize.SizeMax -Confirm
     }
+
+$Updates = Read-Host -Prompt 'Do you want to perform the Windows Updates or not? Y or N'
+if ($Updates -eq 'Y') {
+    Install-Module PSWindowsUpdate
+    Get-WindowsUpdate
+    Install-WindowsUpdate
+} 
+else { "Alright, do whatever you want. I'm out but I've already called Cabiola. NINONINONINO." }
+
 
 ## Asks for the interface data as interface index, IP, subnet and default gateway
 
